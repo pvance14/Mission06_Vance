@@ -8,7 +8,7 @@ namespace Mission06_Vance.Controllers
     {
         private NewMoviesContext _context;
 
-        public HomeController(NewMoviesContext temp)
+        public HomeController(NewMoviesContext temp) //constructor
         { 
             _context = temp;
         }
@@ -25,16 +25,41 @@ namespace Mission06_Vance.Controllers
         [HttpGet]
         public IActionResult NewMovie()
         {
+            ViewBag.Categories = _context.Categories
+                .OrderBy(x => x.CategoryName)
+                .ToList(); 
+                
             return View("NewMovie");
         }
 
         [HttpPost]
         public IActionResult NewMovie(Movie response)
         {
-            _context.Movies.Add(response); //add record to the database
-            _context.SaveChanges();
-            
-            return View("Confirmation", response);
+            if (ModelState.IsValid)
+            {
+                _context.Movies.Add(response); //add record to the database
+                _context.SaveChanges();
+
+                return View("Confirmation", response);
+            }
+            else
+            {
+                ViewBag.Categories = _context.Categories
+                    .OrderBy(x => x.CategoryName)
+                    .ToList();
+
+                return View(response);
+            }
+
+        }
+
+        public IActionResult Collection ()
+        {
+            // linq query
+            var movies = _context.Movies
+                .OrderBy(x => x.Title).ToList();
+
+            return View(movies);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mission06_Vance.Models
 {
@@ -7,14 +8,26 @@ namespace Mission06_Vance.Models
         [Key]
         [Required]
         public int MovieID { get; set; }
-        public string MovieCategory { get; set; }
-        public string MovieTitle { get; set;}
-        public int MovieYear { get; set; }
-        public string MovieDirector { get; set; }
-        public string MovieRating { get; set; }
-        public bool MovieEdited { get; set; }
-        public string MovieLentTo { get; set; }
-        public string MovieNotes { get; set; }
+
+        [ForeignKey("CategoryID")]
+        public int? CategoryID { get; set; }
+        public Category? Category { get; set; }
+
+        [Required(ErrorMessage = "Sorry, you need to enter the title of the Movie!")]
+        public string Title { get; set;}
+
+        [Required]
+        [Range(1888, int.MaxValue, ErrorMessage = "The year must be greater than or equal to 1888.")]
+        public int Year { get; set; }
+        public string? Director { get; set; }
+        public string? Rating { get; set; }
+
+        [Required]
+        public bool Edited { get; set; }
+        public string? LentTo { get; set; }
+        [Required]
+        public bool CopiedToPlex { get; set; }
+        public string? Notes { get; set; }
 
         // I couldn't figure out how to make some of these null in the database:(
 
