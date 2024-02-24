@@ -7,10 +7,10 @@ namespace Mission06_Vance.Models
     {
         [Key]
         [Required]
-        public int MovieID { get; set; }
+        public int MovieId { get; set; }
 
-        [ForeignKey("CategoryID")]
-        public int? CategoryID { get; set; }
+        [ForeignKey("CategoryId")]
+        public int? CategoryId { get; set; }
         public Category? Category { get; set; }
 
         [Required(ErrorMessage = "Sorry, you need to enter the title of the Movie!")]

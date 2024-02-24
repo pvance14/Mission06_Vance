@@ -13,10 +13,13 @@
 <br />
 
 <form method="post">
+
+    <input type="hidden" asp-for="MovieId" /> @* this makes sure there is a MovieId associated with each record, but that it's hidden *@
+
     <div class="form-group" style="display: flex; align-items: center;">
         <p style="margin-right: 10px;">Film Category:</p>
-        <select asp-for="CategoryID">
-            <option value="">Select a Category</option>
+        <select asp-for="CategoryId">
+            <option value="">Select a Category</option> @* to show all of the options in the category dropdown menu *@
             @foreach (Category c in ViewBag.Categories)
             {
                 <option value="@c.CategoryId">@c.CategoryName</option>
