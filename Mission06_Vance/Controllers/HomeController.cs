@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Mission06_Vance.Models;
 using System.Diagnostics;
 
@@ -29,7 +30,7 @@ namespace Mission06_Vance.Controllers
                 .OrderBy(x => x.CategoryName)
                 .ToList(); 
                 
-            return View("NewMovie");
+            return View("NewMovie", new Movie());
         }
 
         [HttpPost]
@@ -56,7 +57,7 @@ namespace Mission06_Vance.Controllers
         public IActionResult Collection () // this takes us to the view with the table of movies
         {
             // linq query
-            var movies = _context.Movies
+            var movies = _context.Movies.Include("Category")
                 .OrderBy(x => x.Title).ToList();
 
             return View(movies);
@@ -83,9 +84,22 @@ namespace Mission06_Vance.Controllers
             return RedirectToAction("Collection"); // this makes sure the collection view is properly shown
         }
 
-        public IActionResult Delete()
+        [HttpGet]
+        public IActionResult Delete(int id) // gets the record we're going to delete
         {
+            var recordToDelete = _context.Movies
+                .Single(x => x.MovieId == id);
 
+            return View(recordToDelete);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(Movie movie) // actually deletes the movie
+        {
+            _context.Movies.Remove(movie);
+            _context.SaveChanges();
+
+            return RedirectToAction("Collection");
         }
     }
 }

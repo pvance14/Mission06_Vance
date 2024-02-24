@@ -9,14 +9,13 @@ namespace Mission06_Vance.Models
         [Required]
         public int MovieId { get; set; }
 
-        [ForeignKey("CategoryId")]
         public int? CategoryId { get; set; }
         public Category? Category { get; set; }
 
         [Required(ErrorMessage = "Sorry, you need to enter the title of the Movie!")]
         public string Title { get; set;}
 
-        [Required]
+        [Required(ErrorMessage = "Enter what year the movie was released")]
         [Range(1888, int.MaxValue, ErrorMessage = "The year must be greater than or equal to 1888.")]
         public int Year { get; set; }
         public string? Director { get; set; }
@@ -28,15 +27,6 @@ namespace Mission06_Vance.Models
         [Required]
         public bool CopiedToPlex { get; set; }
         public string? Notes { get; set; }
-
-        // I couldn't figure out how to make some of these null in the database:(
-
-
-
-
-
-
-
 
 
     }
